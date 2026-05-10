@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luyện Thi Lịch Sử 12 HK2</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .btn-selected { border-color: #3b82f6 !important; background-color: #eff6ff !important; }
+    .tf-selected { background-color: #2563eb !important; color: white !important; border-color: #2563eb !important; }
+    .correct-ans { border-color: #22c55e !important; background-color: #f0fdf4 !important; }
+    .wrong-ans { border-color: #ef4444 !important; background-color: #fef2f2 !important; }
+  </style>
+</head>
+<body class="bg-amber-50 min-h-screen flex flex-col items-center py-10 px-4 font-sans text-gray-800">
+
+  <div id="app" class="max-w-3xl w-full">
+    </div>
+
+  <script>
+    // 1. DỮ LIỆU ĐỀ THI LỊCH SỬ (FULL 44 CÂU TRẮC NGHIỆM + 8 CÂU ĐÚNG/SAI)
+    const examData = [
+      // ======================= PHẦN I: TRẮC NGHIỆM =======================
+      { id: "p1_q1", type: "multiple_choice", 
+      question: "Câu 1. Hoạt động đối ngoại của Phan Bội Châu trong những năm 1905 - 1909 diễn ra ở quốc gia nào sau đây?", 
+      options: ["A. Ấn Độ.", "B. Nhật Bản.", "C. Đức.", "D. Nga."], 
+      correct_answer: 1 },
+      { id: "p1_q2", type: "multiple_choice", 
+        question: "Câu 2. Với mục tiêu đánh đuổi thực dân Pháp để giành lại độc lập, năm 1905, Phan Bội Châu khởi xướng phong trào đưa thanh niên Việt Nam sang Nhật Bản để học tập, được gọi là phong trào", 
+        options: ["A. Đông du.", "B. Cần vương.", "C. cải tiến.", "D. Duy tân."], 
+      correct_answer: 0 },
+      { id: "p1_q3", type: "multiple_choice", 
+        question: "Câu 3. Những hoạt động đối ngoại của Đảng Cộng sản Đông Dương (1930 - 1945) nhằm mục đích nào sau đây?", 
+        options: ["A. Tranh thủ sự giúp đỡ của phe xã hội chủ nghĩa.", "B. Bước đầu gắn cách mạng Việt Nam với thế giới.", "C. Tiếp nhận sự viện trợ kinh tế của Trung Quốc.", "D. Tranh thủ sự giúp đỡ của cách mạng thế giới."], 
+        correct_answer: 3 },
+      { id: "p1_q4", type: "multiple_choice", 
+        question: "Câu 4. Từ năm 1911 đến năm 1925, các hoạt động đối ngoại của Phan Châu Trinh hướng đến mục tiêu nào sau đây?", 
+        options: ["A. Thức tỉnh dư luận Pháp về vấn đề Đông Dương.", "B. Thành lập liên minh quân sự để chống phát xít.", "C. Tổ chức các hoạt động khởi nghĩa vũ trang.", "D. Thành lập liên minh các dân tộc thuộc địa."], 
+        correct_answer: 0 },
+      { id: "p1_q5", type: "multiple_choice", 
+        question: "Câu 5. Các nhà yêu nước Việt Nam trong thập niên đầu thế kỉ XX tiến hành các hoạt động đối ngoại trong bối cảnh nào sau đây?", 
+        options: ["A. Con đường giải phóng dân tộc theo ngọn cờ phong kiến bị bế tắc.", "B. Đảng Cộng sản Pháp đã thành lập và giúp đỡ cách mạng Việt Nam.", "C. Phong trào đấu tranh chống phát xít trên thế giới phát triển mạnh mẽ.", "D. Phong trào dân tộc theo khuynh hướng dân chủ tư sản ngừng hoạt động."], 
+        correct_answer: 0 },
+      { id: "p1_q6", type: "multiple_choice", 
+        question: "Câu 6. Năm 1945, một trong những hoạt động đối ngoại của nước Việt Nam Dân chủ Cộng hòa là", 
+        options: ["A. gửi Công hàm đề nghị các nước lớn công nhận Việt Nam.", "B. Chủ tịch Hồ Chí Minh đi thăm các nước xã hội chủ nghĩa.", "C. Việt Nam cử đại biểu tham dự Đại hội Quốc tế cộng sản.", "D. ký với đại diện của chính phủ Pháp bản Hiệp định Sơ-bộ"], 
+        correct_answer: 0 },
+      { id: "p1_q7", type: "multiple_choice", 
+        question: "Câu 7. Ngày 6-3-1946, Chính phủ nước Việt Nam Dân chủ Cộng hòa đã ký với đại diện của Chính phủ Pháp bản hiệp định nào sau đây?", 
+        options: ["A. Bàn Môn Điếm.", "B. Giơ-ne-vơ.", "C. Hiệp định Sơ bộ.", "D. Hiệp định Pa-ri."], 
+        correct_answer: 2 },
+      { id: "p1_q8", type: "multiple_choice", 
+        question: "Câu 8. Sự kiện nào sau đây trong kháng chiến chống Pháp cho thấy mối quan hệ đoàn kết chiến đấu của Việt Nam – Lào – Cam-pu-chia được củng cố và tăng cường?", 
+        options: ["A. Liên minh kinh tế – văn hoá Việt – Lào – Cam-pu-chia ra đời.", "B. Liên minh ngoại giao Việt – Lào – Cam-pu-chia ra đời.", "C. Liên minh nhân dân Việt – Xiêm – Lào được thành lập.", "D. Liên minh nhân dân Việt – Miên – Lào được thành lập."], 
+        correct_answer: 3 },
+      { id: "p1_q9", type: "multiple_choice", 
+        question: "Câu 9. Nội dung nào sau đây là mục đích của các hoạt động đối ngoại mà nước Việt Nam Dân chủ Cộng hòa tiến hành từ sau Cách mạng tháng Tám đến trước ngày 19/12/1946?", 
+        options: ["A. Tranh thủ, tập trung phát triển kinh tế đất nước.", "B. Xin gia nhập vào các tổ chức hòa bình quốc tế.", "C. Yêu cầu các nước thiết lập quan hệ ngoại giao.", "D. Để tránh một lúc phải đối phó với nhiều kẻ thù."], 
+        correct_answer: 3 },
+      { id: "p1_q10", type: "multiple_choice", 
+        question: "Câu 10. Các hoạt động đối ngoại mà nước Việt Nam dân chủ Cộng hòa tiến hành từ sau Cách mạng tháng Tám phải tuân thủ nguyên tắc nào sau đây?", options: ["A. Không vi phạm đến chủ quyền dân tộc.", "B. Không nhân nhượng thỏa hiệp với Pháp.", "C. Nhân nhượng tất cả yêu cầu của Tưởng.", "D. Giải quyết xung đột bằng thương lượng."], correct_answer: 0 },
+      { id: "p1_q11", type: "multiple_choice", question: "Câu 11. Đâu là kết quả mà cách mạng Việt Nam đạt được khi ký Hiệp định Giơ- ne-vơ 1954?", options: ["A. Thống nhất đất nước.", "B. Miền Bắc giải phóng.", "C. Miền Nam giải phóng.", "D. Đánh bại đế quốc Mỹ."], correct_answer: 1 },
+      { id: "p1_q12", type: "multiple_choice", question: "Câu 12. Năm 1950, quốc gia đầu tiên trên thế giới thiết lập quan hệ ngoại giao với Việt Nam Dân chủ Cộng hoà là", options: ["A. Liên Xô.", "B. Trung Quốc.", "C. Cộng hoà Dân chủ Đức.", "D. Cộng hoà Liên bang Đức."], correct_answer: 1 },
+      { id: "p1_q13", type: "multiple_choice", question: "Câu 13. Hãy điền các từ đúng vào câu sau đây: “Bằng việc kí Hiệp định Sơ bộ 6-3 và Tạm ước 14-9-1946, chúng ta đã đập tan âm mưu của……………… để chống lại ta”.", options: ["A. đế quốc Mĩ cấu kết với quân Trung Hoa Dân quốc.", "B. đế quốc Pháp cấu kết với quân Trung Quốc.", "C. quân Trung Hoa Dân quốc cấu kết với Pháp.", "D. đế quốc Pháp cấu kết với Anh."], correct_answer: 2 },
+      { id: "p1_q14", type: "multiple_choice", question: "Câu 14. Hội nghị Pa-ri (1969-1973) được tổ chức với mục đích nào sau đây?", options: ["A. Chống lại âm mưu xâm lược bán đảo Đông Dương.", "B. Thiết lập liên minh giữa các nước xã hội chủ nghĩa.", "C. Tìm giải pháp kết thúc cuộc chiến tranh Việt Nam.", "D. Thương lượng để kết thúc cuộc khủng hoảng tên lửa."], correct_answer: 2 },
+      { id: "p1_q15", type: "multiple_choice", question: "Câu 15. Nội dung nào sau đây là hạn chế trong Hiệp định Giơ-ne-vơ 1954 đã được khắc phục trong Hiệp định Pa-ri 1973?", options: ["A. Chuyển quân, tập kết.", "B. Hai lực lượng chính trị.", "C. Hai vùng kiểm soát.", "D. Giám sát quốc tế."], correct_answer: 0 },
+      { id: "p1_q16", type: "multiple_choice", question: "Câu 16. Nhận xét nào sau đây đối với Hiệp định Pa-ri (1973) về chấm dứt chiến tranh, lập lại hòa bình ở Việt Nam là đúng?", options: ["A. Kết quả của cuộc đấu tranh ngoại giao dài nhất, khó khăn nhất.", "B. Thắng lợi chung của khối xã hội chủ nghĩa trước âm mưu của Mỹ.", "C. Hiệp định đầu tiên ghi nhận quyền dân tộc cơ bản của Việt Nam.", "D. Là thời cơ trực tiếp để Nhân dân ta tiến lên giải phóng miền Nam."], correct_answer: 3 },
+      { id: "p1_q17", type: "multiple_choice", question: "Câu 17. Từ kết quả của cuộc đấu tranh ngoại giao buộc Mĩ phải kí kết Hiệp định Pari, hãy rút ra bài học kinh nghiệm gì cho vấn đề ngoại giao hiện nay?", options: ["A. Bài học về sự kết hợp giữa đấu tranh quân sự, kinh tế và ngoại giao.", "B. Bài học về sự kết hợp giữa đấu tranh quân sự, binh vận và ngoại giao.", "C. Bài học về sự kết hợp giữa đấu tranh quân sự, chính trị và ngoại giao.", "D. Bài học về sự kết hợp giữa đấu tranh văn hóa, chính trị và ngoại giao."], correct_answer: 2 },
+      { id: "p1_q18", type: "multiple_choice", question: "Câu 18. Nhiệm vụ căn bản, quan trọng nhất của ngoại giao Việt Nam trong cuộc kháng chiến chống Mĩ cứu nước (1954 – 1975) là", options: ["A. tăng cường thu hút viện trợ và đầu tư nước ngoài.", "B. phục vụ sự nghiệp đấu tranh thống nhất đất nước.", "C. đa phương hóa, đa dạng hóa quan hệ đối ngoại.", "D. nâng cao vị thế của Việt Nam trên trường quốc tế."], correct_answer: 1 },
+      { id: "p1_q19", type: "multiple_choice", question: "Câu 19. Giai đoạn 1975 - 1985, Việt Nam thực hiện chính sách đối ngoại nào sau đây?", options: ["A. Bình thường hoá quan hệ ngoại giao với Mỹ.", "B. Hợp tác toàn diện với các nước xã hội chủ nghĩa.", "C. Hợp tác toàn diện với các nước tư bản chủ nghĩa.", "D. Bình thường hoá quan hệ ngoại giao với Trung Quốc."], correct_answer: 1 },
+      { id: "p1_q20", type: "multiple_choice", question: "Câu 20. Các hoạt động đối ngoại của Việt Nam thời kì Đổi mới không có tác động nào sau đây?", options: ["A. Bước đầu thiết lập quan hệ với cách mạng thế giới.", "B. Nâng cao vị thế của Việt Nam trên trường quốc tế.", "C. Bảo vệ vững chắc chủ quyền lãnh thổ của Tổ quốc.", "D. Thúc đẩy sự phát triển của kinh tế, văn hoá và xã hội."], correct_answer: 0 },
+      { id: "p1_q21", type: "multiple_choice", question: "Câu 21. Quan hệ giữa Việt Nam và quốc tế được cải thiện sau khi vấn đề nào sau đây được giải quyết?", options: ["A. Vấn đề Cam-pu-chia.", "B. Vấn đề chuyển quân, tập kết.", "C. Vấn đề chính quyền.", "D. Vấn đề thống nhất đất nước."], correct_answer: 0 },
+      { id: "p1_q22", type: "multiple_choice", question: "Câu 22. Trong quá trình Đổi mới đất nước (từ năm 1986), Việt Nam tiến hành hoạt động ngoại giao để thực hiện mục tiêu nào sau đây?", options: ["A. Đấu tranh thống nhất đất nước.", "B. Trở thành thành viên của Liên hợp quốc.", "C. Buộc Mỹ công nhận quyền dân tộc cơ bản.", "D. Nâng cao vị thế cùa quốc gia dân tộc."], correct_answer: 3 },
+      { id: "p1_q23", type: "multiple_choice", question: "Câu 23. Năm 1995, Việt Nam trở thành thành viên của tổ chức nào sau đây?", options: ["A. Liên minh chính trị - quân sự Vác-sa-va.", "B. Hội đồng tương trợ kinh tế (SEV).", "C. Hiệp hội các quốc gia Đông Nam Á (ASEAN).", "D. Tổ chức Thương mại Thế giới (WTO)."], correct_answer: 2 },
+      { id: "p1_q24", type: "multiple_choice", question: "Câu 24. Năm 1991, Việt Nam bình thường hoá quan hệ với quốc gia nào sau đây?", options: ["A. Mỹ.", "B. Trung Quốc.", "C. Nhật Bản.", "D. Thái Lan."], correct_answer: 1 },
+      { id: "p1_q25", type: "multiple_choice", question: "Câu 25. Nội dung nào sau đây là một trong những yếu tố cơ bản tác động đến quyết định ra đi tìm đường cứu nước (1911) của Nguyễn Tất Thành?", options: ["A. Phong trào yêu nước chống Pháp theo khuynh hướng tư sản đã chấm dứt.", "B. Đất nước bị mất độc lập, sự nghiệp cứu nước rơi vào khủng hoảng, bế tắc.", "C. Phong trào đấu tranh chống Pháp và phong kiến tay sai đã ngừng hoạt động.", "D. Nhân dân phản đối cuộc đấu tranh chống Pháp của các sĩ phu phong kiến."], correct_answer: 1 },
+      { id: "p1_q26", type: "multiple_choice", question: "Câu 26. Yếu tố nào sau đây quyết định đến việc Nguyễn Tất Thành ra đi tìm đường cứu nước (1911)?", options: ["A. Đất nước bị khủng hoảng, bế tắc về con đường cứu nước.", "B. Những truyền thống của gia đình và quê hương xứ Nghệ.", "C. Mong muốn tìm hiểu, khám phá lịch sử văn minh thế giới.", "D. Chế độ phong kiến không còn phù hợp với dân tộc."], correct_answer: 0 },
+      { id: "p1_q27", type: "multiple_choice", question: "Câu 27. Giữa năm 1911, Nguyễn Tất Thành quyết định chọn hướng đi nào sau đây để mở đầu cuộc hành trình tìm đường cứu nước cho dân tộc Việt Nam?", options: ["A. Hướng về phương Đông.", "B. Hướng sang phương Tây.", "C. Hướng về phương Nam.", "D. Hướng về phương Bắc."], correct_answer: 1 },
+      { id: "p1_q28", type: "multiple_choice", question: "Câu 28. “Ở đâu chủ nghĩa thực dân đế quốc cũng tàn bạo, ở đâu những người lao động cũng bị áp bức cùng cực” là nhận định của Nguyễn Tất Thành sau khi", options: ["A. thành lập Hội Việt Nam Cách mạng Thanh niên.", "B. tham gia hoạt động trong Đảng Xã hội Pháp.", "C. lựa chọn con đường theo khuynh hướng vô sản.", "D. tìm hiểu và qua thực tiễn hoạt động ở nhiều nước."], correct_answer: 3 },
+      { id: "p1_q29", type: "multiple_choice", question: "Câu 29. Nguyễn Ái Quốc tìm thấy con đường cứu nước cho dân tộc Việt Nam khi đang hoạt động ở quốc gia nào sau đây?", options: ["A. Anh.", "B. Liên Xô.", "C. Pháp.", "D. Trung Quốc."], correct_answer: 2 },
+      { id: "p1_q30", type: "multiple_choice", question: "Câu 30. Những hoạt động yêu nước ban đầu của Nguyễn Tất Thành (1911 - 1919) có ý nghĩa quan trọng nào sau đây?", options: ["A. Đặt cơ sở cho việc lựa chọn con đường cứu nước mới sau này.", "B. Xác lập mối quan hệ của cách mạng Việt Nam với các nước tư bản.", "C. Chuẩn bị điều kiện về tổ chức cho sự ra đời của Đảng Cộng sản.", "D. Đặt cơ sở cho việc xác định cuộc tư sản dân quyền cách mạng."], correct_answer: 0 },
+      { id: "p1_q31", type: "multiple_choice", question: "Câu 31. “Muốn cứu nước và giải phóng dân tộc, không con đường nào khác ngoài con đường cách mạng vô sản” là quyết định của Nguyễn Ái Quốc khi đọc", options: ["A. Sơ thảo lần thứ nhất những luận cương về vấn đề dân tộc và vấn đề thuộc địa của Lê-nin.", "B. báo Đời sống công nhân, báo Nhân đạo và cuốn Bản án chế độ thực dân Pháp.", "C. báo Thanh niên - cơ quan ngôn luận của Hội Việt Nam Cách mạng Thanh niên.", "D. Tác phẩm Đường Kách mệnh và các bài viết của Lê-nin đăng trên Tạp chí Thư tín quốc tế."], correct_answer: 0 },
+      { id: "p1_q32", type: "multiple_choice", question: "Câu 32. Trong cuộc hành trình tìm đường cứu nước (1911 - 1920), nhận thức nào sau đây của Nguyễn Tất Thành có sự khác biệt so với các nhà yêu nước đi trước?", options: ["A. Chỉ có đoàn kết mới đánh đuổi được đế quốc, giải phóng dân tộc thoát khỏi áp bức.", "B. Muốn cứu nước và giải phóng dân tộc phải đi theo khuynh hướng cách mạng vô sản.", "C. Mâu thuẫn hàng đầu trong xã hội Việt Nam là giữa toàn thế dân tộc với đế quốc Pháp.", "D. Muốn cứu nước và giải phóng dân tộc, trước tiên phải trở thành một người yêu nước."], correct_answer: 1 },
+      { id: "p1_q33", type: "multiple_choice", question: "Câu 33. Sự kiện nào sau đây ghi nhận cuộc hành trình tìm đường cứu nước của Nguyễn Tất Thành - Nguyễn Ái Quốc cho dân tộc Việt Nam đã kết thúc?", options: ["A. Gia nhập tổ chức Hội những người Việt Nam yêu nước tại Pháp (1917).", "B. Tham dự Đại hội thành lập Quốc tế III (Quốc tế Cộng sản) năm 1919.", "C. Lựa chọn con đường cứu nước theo khuynh hướng cách mạng vô sản (1920).", "D. Gửi tới Hội nghị Véc-xai (1919) bản Yêu sách của nhân dân An Nam."], correct_answer: 2 },
+      { id: "p1_q34", type: "multiple_choice", question: "Câu 34. Con đường cứu nước của dân tộc Việt Nam do Nguyễn Ái Quốc xác định có sự khác biệt hoàn toàn so với các con đường cứu nước trước đó về điểm nào sau đây?", options: ["A. Hình thức, phương pháp đấu tranh.", "B. Mục tiêu trực tiếp, trước mắt.", "C. Xác định đối tượng cách mạng.", "D. Phương hướng tiến lên."], correct_answer: 3 },
+      { id: "p1_q35", type: "multiple_choice", question: "Câu 35. Nội dung nào sau đây không đúng về ý nghĩa của sự kiện Nguyễn Ái Quốc tìm thấy con đường cứu nước cho dân tộc Việt Nam?", options: ["A. Chấm dứt thời kì khủng hoảng về con đường cứu nước ở Việt Nam.", "B. Chuẩn bị trực tiếp cho sự ra đời các tổ chức cộng sản ở Việt Nam.", "C. Chuẩn bị các điều kiện cho sự ra đời của Đảng Cộng sản Việt Nam.", "D. Gắn phong trào cách mạng của Việt Nam với cách mạng thế giới."], correct_answer: 1 },
+      { id: "p1_q36", type: "multiple_choice", question: "Câu 36. Một trong những điểm tương đồng trong các hoạt động đối ngoại của Nguyễn Ái Quốc và Phan Bội Châu là ở", options: ["A. kết quả.", "B. mục tiêu.", "C. hướng đi.", "D. nhận thức."], correct_answer: 1 },
+      { id: "p1_q37", type: "multiple_choice", question: "Câu 37. Trong quá trình chuẩn bị về tổ chức để thành lập Đảng Cộng sản của Việt Nam (1919 - 1929), Nguyễn Ái Quốc có sự sáng tạo nào sau đây?", options: ["A. Chủ nhiệm, kiêm chủ bút cho tờ báo Người cùng khổ để tuyên truyền cách mạng.", "B. Xuất bản cuốn Đường Kách mệnh, bí mật gửi về nước để tuyên truyền cách mạng,", "C. Thành lập các tổ chức tiền cộng sản trước khi thành lập Đảng Cộng sản Việt Nam.", "D. Viết tác phẩm Bản án chế độ dân Pháp để tố cáo những tội ác của thực dân Pháp."], correct_answer: 2 },
+      { id: "p1_q38", type: "multiple_choice", question: "Câu 38. Tại Hội nghị thành lập Đảng Cộng sản Việt Nam (đầu năm 1930), vai trò nào sau đây của Nguyễn Ái Quốc thể hiện sự vận dụng sáng tạo chủ nghĩa Mác - Lê-nin ở Việt Nam?", options: ["A. Xác định phương hướng tiến lên.", "B. Xác định lực lượng nòng cốt.", "C. Xác định lực lượng cách mạng.", "D. Xác định giai cấp lãnh đạo."], correct_answer: 2 },
+      { id: "p1_q39", type: "multiple_choice", question: "Câu 39. Yếu tố nào sau đây không ảnh hưởng đến hành trình cứu nước và hoạt động cách mạng của Nguyễn Ái Quốc - Hồ Chí Minh (1911 - 1969)?", options: ["A. Đất nước bị mất độc lập, nhân dân bị áp bức, bóc lột.", "B. Truyền thống gia đình và sự nhận thức của cá nhân.", "C. Xu thế hoà hoãn Đông - Tây và xu thế toàn cầu hoá.", "D. Những truyền thống tốt đẹp của dân tộc và quê hương."], correct_answer: 2 },
+      { id: "p1_q40", type: "multiple_choice", question: "Câu 40. Trong cuộc đời hoạt động cách mạng (1911 - 1969), Nguyễn Ái Quốc - Hồ Chí Minh được kế thừa những truyền thống nào sau đây của quê hương Nghệ An và gia đình?", options: ["A. Truyền thống khoa bảng và tinh thần chống phát xít.", "B. Yêu chuộng hoà bình, chống chủ nghĩa phát xít.", "C. Truyền thống hiếu học và chống phong kiến.", "D. Truyền thống yêu nước, hiếu học và đoàn kết."], correct_answer: 3 },
+      { id: "p1_q41", type: "multiple_choice", question: "Câu 41. Trong những năm 1920 - 1930, hoạt động yêu nước và cách mạng của Nguyễn Ái Quốc không có sự kiện nào sau đây?", options: ["A. Xác định con đường cứu nước theo khuynh hướng cách mạng vô sản.", "B. Lựa chọn con đường cứu nước theo khuynh hướng cách mạng vô sản.", "C. Trở về nước và trực tiếp lãnh đạo cuộc vận động giải phóng dân tộc.", "D. Chuẩn bị các điều kiện cho việc thành lập Đảng Cộng sản Việt Nam."], correct_answer: 2 },
+      { id: "p1_q42", type: "multiple_choice", question: "Câu 42. Nội dung nào sau đây ghi nhận Hồ Chí Minh là nhà lãnh đạo chủ chốt trong lịch sử dân tộc (từ năm 1945 đến năm 1969)?", options: ["A. Chủ trì các hội nghị của Đảng, hoạch định đường lối cách mạng.", "B. Chỉ huy các chiến dịch trong suốt cuộc kháng chiến chống Mỹ.", "C. Kết nối phong trào cách mạng Việt Nam với cách mạng thế giới.", "D. Trực tiếp chỉ đạo cuộc Tổng tiến công và giải phóng Xuân năm 1975."], correct_answer: 0 },
+      { id: "p1_q43", type: "multiple_choice", question: "Câu 43. Trong những năm kháng chiến chống thực dân Pháp (1945 - 1954), Chủ tịch Hồ Chí Minh có vai trò nổi bật nào sau đây?", options: ["A. Hoạch định đường lối xây dựng và bảo vệ chế độ mới.", "B. Đề ra kế hoạch Tổng tiến công và nổi dậy ở Việt Bắc.", "C. Chủ trì Đại hội đại biểu toàn quốc lần thứ III của Đảng.", "D. Trực tiếp chỉ đạo xây dựng chủ nghĩa xã hội ở miền Bắc."], correct_answer: 0 },
+      { id: "p1_q44", type: "multiple_choice", question: "Câu 44. Sự kiện nào sau đây không có trong cuộc hành trình tìm đường cứu nước (1911 - 1920) của Nguyễn Tất Thành - Nguyễn Ái Quốc?", options: ["A. Tham gia hoạt động trong tổ chức Hội những người Việt Nam yêu nước ở Pháp.", "B. Bỏ phiếu tán thành việc Đảng Xã hội Pháp gia nhập Quốc tế thứ ba do Lê-nin sáng lập.", "C. Gặp gỡ V.I. Lê-nin trong Đại hội thành lập Quốc thế thứ ba tổ chức tại Mát-xcơ-va.", "D. Gửi tới Hội nghị Véc-xai bản Yêu sách của nhân dân An Nam đòi quyền lợi dân tộc."], correct_answer: 2 },
+
+      // ======================= PHẦN II: ĐÚNG / SAI =======================
+      {
+        id: "p2_q1", type: "true_false",
+        question: "Câu 1. Đọc đoạn tư liệu sau:\n“Sức mạnh ngoại giao là một dạng “sức mạnh mềm ” và ngoại giao đóng vai trò quan trọng tạo dựng thêm thế và lực của đất nước. Trong bối cảnh hiện nay, ngoại giao đa phương ngày càng có tầm quan trọng đặc biệt... Thực tiễn quốc tế cho thấy, các nước vừa và nhỏ vẫn có thể tham gia hiệu quả và có vai trò quan trọng trong các tổ chức quốc tế như Liên hợp quốc, WTO,... Đó là kinh nghiệm bổ ích về hoạt động chính trị quốc tế mà Việt Nam có thể tham khảo”",
+        statements: [
+          { text: "a) Hoạt động ngoại giao trong lịch sử chủ yếu diễn ra giữa các quốc gia trong phạm vi khu vực.", is_true: false },
+          { text: "b) Trong bối cảnh hiện nay, các quốc gia vừa và nhỏ luôn gặp khó khăn khi tham gia các tổ chức quốc tế.", is_true: false },
+          { text: "c) Ngoại giao góp phần nâng cao vị thế đất nước, thậm chí có thể đi trước mở đường cho đấu tranh chính trị và quân sự.", is_true: true },
+          { text: "d) Bài học kinh nghiệm cho Việt Nam trong hoạt động đối ngoại là phải tích cực, chủ động, theo sát tình hình, tận dụng thời cơ để nâng cao vị thế.", is_true: true }
+        ]
+      },
+      {
+        id: "p2_q2", type: "true_false",
+        question: "Câu 2. Đọc đoạn tư liệu sau:\n“Sau chiến tranh của đế quốc Mỹ xâm lược Việt Nam, tình hình quốc tế diễn biến phức tạp... ngoại giao đã tăng cường đoàn kết, hợp tác giữa các nước Đông Dương... Những hoạt động ngoại giao tích cực của Việt Nam đã góp phần đưa đến việc giải quyết vấn đề Cam-pu-chia bằng giải pháp chính trị, mở các đột phá tháo gỡ những trở ngại trong các quan hệ song phương và đa phương, từ đó bình thường hoá quan hệ với tất cả các nước lớn, các nước láng giềng...”",
+        statements: [
+          { text: "a) Một trong những nhiệm vụ quan trọng của ngoại giao Việt Nam từ sau chiến thắng mùa Xuân năm 1975 là tìm hướng phá thế bị bao vây và cấm vận.", is_true: true },
+          { text: "b) Hoạt động ngoại giao của Việt Nam giai đoạn này chỉ có ý nghĩa trong quan hệ song phương", is_true: false },
+          { text: "c) Các hoạt động đối ngoại tích cực của Việt Nam sau năm 1975 đã đưa Việt Nam thoát khỏi khó khăn, nâng cao vị thế trên trường quốc tế.", is_true: true },
+          { text: "d) Thành tựu của ngoại giao Việt Nam thời kì Đổi mới cho thấy việc cân bằng mối quan hệ với các nước lớn là vô cùng quan trọng để duy trì ổn định.", is_true: false }
+        ]
+      },
+      {
+        id: "p2_q3", type: "true_false",
+        question: "Câu 3. Đọc đoạn tư liệu sau:\n\"Tính sáng tạo và chủ động tiến công của ngoại giao Việt Nam hiện đại còn được thể hiện qua các hoạt động hết sức năng động của ta trong thời kì có cuộc khủng hoảng Cam-pu-chia. Ngoại giao đã góp phần làm thất bại kế hoạch của các thế lực thù địch... Các hoạt động ngoại giao trong thời kì này đã góp phần phá âm mưu của đối phương bao vây, cô lập Việt Nam và đã chứng tỏ không thể giải quyết vấn đề liên quan đến Đông Nam Á mà không tính đến vai trò của Việt Nam\"",
+        statements: [
+          { text: "a) Việt Nam đã thành công trong việc giải quyết vấn đề Cam-pu-chia bằng giải pháp hoà bình.", is_true: true },
+          { text: "b) Để giải quyết vấn đề Cam-pu-chia, Việt Nam đã huy động mọi sự giúp đỡ từ các nước láng giềng.", is_true: false },
+          { text: "c) Các hoạt động đối ngoại tích cực, sáng tạo của Việt Nam từ sau năm 1975 đã phá vỡ thế bị bao vây, cô lập và đưa Việt Nam từng bước hội nhập quốc tế.", is_true: true },
+          { text: "d) Để giải quyết vấn đề Cam-pu-chia, Việt Nam luôn giương cao ngọn cờ độc lập tự chủ, ngọn cờ chính nghĩa và tuyệt đối không nhân nhượng.", is_true: false }
+        ]
+      },
+      {
+        id: "p2_q4", type: "true_false",
+        question: "Câu 4. Đọc đoạn tư liệu sau:\n“Từ lễ Tuyên ngôn độc lập (2-9-1945) đến Hiệp định Giơ-ne-vơ (7-1954), nền ngoại giao của Nhà nước Việt Nam Dân chủ Cộng hòa không ngừng lớn mạnh, góp phần giữ vững và củng cố Nhà nước dân chủ nhân dân non trẻ, từng bước phá vòng vây của kẻ thù, đưa cuộc kháng chiến của nhân dân ta nối liền với các nước xã hội chủ nghĩa [...], buộc thực dân Pháp phải ki Hiệp định Giơ-ne-vơ”.",
+        statements: [
+          { text: "a) Tư liệu cho thấy ngoại giao Việt Nam giai đoạn 1945–1954 không chỉ phục vụ đối nội mà còn từng bước gắn cuộc kháng chiến với bối cảnh quốc tế.", is_true: true },
+          { text: "b) Nền ngoại giao Việt Nam giai đoạn này đã thành công trong việc đưa cuộc kháng chiến kết nối với các nước xã hội chủ nghĩa trên thế giới.", is_true: true },
+          { text: "c) Hoạt động ngoại giao Việt Nam đã phá vỡ hoàn toàn sự bao vây của kẻ thù ngay từ đầu giai đoạn 1945–1954.", is_true: false },
+          { text: "d) Việc “đưa cuộc kháng chiến nối liền với các nước xã hội chủ nghĩa” chứng tỏ Việt Nam đã hoàn toàn thoát khỏi thế bị cô lập về đối ngoại trước năm 1954.", is_true: false }
+        ]
+      },
+      {
+        id: "p2_q5", type: "true_false",
+        question: "Câu 5. Đọc đoạn tư liệu sau:\n\"... Trung ương đã quyết định cần tích cực chuẩn bị cho cuộc họp Hội nghị toàn quốc của Đảng và Quốc dân đại hội đại biểu. Bác giục chuẩn bị cho kịp họp hai hội nghị quan trọng này từ tháng 7... Giữa lúc công việc bộn bề như thế, Bác bỗng bị mệt... Lúc nào tỉnh, Bác chỉ nói chuyện tình hình: “Lúc này thời cơ thuận lợi đã tới, dù hi sinh tới đâu, dù phải đốt cháy cả dãy Trường Sơn cũng phải kiên quyết giành cho được độc lập ”",
+        statements: [
+          { text: "a) Đoạn tư liệu ghi nhận vai trò của Chủ tịch Hồ Chí Minh và Đảng Cộng sản Đông Dương trong việc chớp thời cơ, lãnh đạo Cách mạng tháng Tám năm 1945.", is_true: true },
+          { text: "b) Hồ Chí Minh xác định thời cơ Tổng khởi nghĩa giành chính quyền trên toàn quốc từ khi Nhật đầu hàng quân Đồng minh đến trước khi quân Đồng minh vào Đông Dương.", is_true: true },
+          { text: "c) Thời cơ của Tổng khởi nghĩa trong Cách mạng tháng Tám năm 1945 ở Việt Nam được tính từ khi Nhật tiến hành đảo chính Pháp trên toàn Đông Dương (9-3-1945).", is_true: false },
+          { text: "d) Bối cảnh nổ ra cuộc Tổng khởi nghĩa trong Cách mạng tháng Tám năm 1945 ở Việt Nam có sự đan xen giữa thời cơ và nguy cơ.", is_true: true }
+        ]
+      },
+      {
+        id: "p2_q6", type: "true_false",
+        question: "Câu 6. Đọc đoạn tư liệu sau:\n\"... Cuốn sách không để tên tác giả và được lưu hành trong Việt kiều ở Quảng Châu..., cuốn sách tóm tắt những bài giảng của đồng chí ấy về chủ nghĩa Mác - Lê-nin và nhiệm vụ của cách mạng Việt Nam. Cuốn “Đường Kách mệnh ” là sự tiếp theo một cách lô-gích cuốn “Bản án chê độ thực dân Pháp ”... vạch ra con đường cụ thể giải phóng dân tộc ”.",
+        statements: [
+          { text: "a) Cùng với báo Thanh niên, cuốn sách Đường Kách mệnh về sau trở thành Cương lĩnh chính trị đầu tiên của Đảng Cộng sản Việt Nam.", is_true: false },
+          { text: "b) Tác phẩm Bản án chế độ thực dân Pháp và cuốn Đường Kách mệnh đều do Nguyễn Ái Quốc soạn thảo, phục vụ cho hoạt động cách mạng.", is_true: true },
+          { text: "c) Trong cuốn Đường Kách mệnh, Nguyễn Ái Quốc đã bước đầu vạch ra phương hướng, con đường cụ thể để giải phóng dân tộc Việt Nam.", is_true: true },
+          { text: "d) Cuốn Đường Kách mệnh do Nguyễn Ái Quốc xuất bản để phục vụ cách mạng.", is_true: true }
+        ]
+      },
+      {
+        id: "p2_q7", type: "true_false",
+        question: "Câu 7. Đọc đoạn tư liệu sau:\n“Sinh ra và lớn lên trong bối cảnh đất nước đã trở thành thuộc địa... Nguyễn Tất Thành sớm có ý chí đánh đuổi thực dân, giải phóng đồng bào. Tuy rất khâm phục tinh thần yêu nước của các bậc tiền bối, nhưng Người không tán thành những con đường của họ mà quyết tâm ra đi tìm một con đường cứu nước mới. Nguyễn Tất Thành hướng tới phương Tây... Ngày 5-6-1911... bắt đầu cuộc hành trình tìm đường cứu nước”.",
+        statements: [
+          { text: "a) Điểm mới và độc đáo trong quyết định ra đi tìm đường cứu nước của Nguyễn Tất Thành (1911) là việc xác định mục đích và lựa chọn hướng đi.", is_true: true },
+          { text: "b) Việc Nguyễn Tất Thành ra đi tìm đường cứu nước (1911) đã giải quyết được sự khủng hoảng về đường lối cứu nước giải phóng dân tộc Việt Nam.", is_true: false },
+          { text: "c) Chứng kiến cảnh đất nước bị mất độc lập, được kế thừa những truyền thống tốt đẹp của dân tộc, quê hương và gia đình, Nguyễn Tất Thành sớm có ý chí cứu nước, giải phóng dân tộc.", is_true: true },
+          { text: "d) Kế thừa tinh thần yêu nước của các bậc tiền bối, giữa năm 1911, Nguyễn Tất Thành rời Bến cảng Nhà Rồng, hướng sang phương Đông để bắt đầu cuộc hành trình tìm đường cứu nước.", is_true: false }
+        ]
+      },
+      {
+        id: "p2_q8", type: "true_false",
+        question: "Câu 8. Đọc đoạn tư liệu sau:\n“Xứ Đông Dương bị chủ nghĩa tư bản Pháp bóc lột để làm giàu cho một số cá mập! Người ta đưa người Đông Dương vào chỗ chết trong cuộc chém giết của bọn tư bản để bảo vệ những cái gì mà chính họ cũng không hề biết. Người ta đầu độc họ bằng rượu cồn và thuốc phiện. Người ta kìm họ trong ngu dốt…”",
+        statements: [
+          { text: "a) Xứ Đông Dương trong đoạn trích là nói tới các nước trong khu vực Đông Nam Á.", is_true: false },
+          { text: "b) Thực dân Pháp đến Đông Dương với sứ mệnh chính là khai hóa văn minh và phát triển kinh tế cho người bản xứ.", is_true: false },
+          { text: "c) Cụm từ 'một số cá mập' ám chỉ những thế lực tư bản thực dân đang lũng đoạn và vơ vét thuộc địa.", is_true: true },
+          { text: "d) Trong quá trình khai thác bóc lột, Hồ Chí Minh đề cập đến việc chủ nghĩa tư bản Pháp chú trọng nhất về vấn đề văn hoá nhằm làm cho người thuộc địa trở thành nô lệ.", is_true: false }
+        ]
+      }
+    ];
+
+    // 2. BIẾN TRẠNG THÁI (STATE)
+    let queue = [];
+    let totalQuestions = 0;
+    let stats = { wrong: 0 };
+    let currentQ = null;
+    let feedbackMode = false;
+    let isCurrentCorrect = false;
+
+    let userMcqAns = null;
+    let userTfAns = [];
+    let userShortAns = "";
+
+    // 3. LOGIC KHỞI TẠO & ĐIỀU HƯỚNG
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function initApp() {
+      let initialQueue = examData.map(q => q.id);
+      queue = shuffleArray(initialQueue);
+      
+      totalQuestions = examData.length;
+      stats.wrong = 0;
+      loadNextQuestion();
+    }
+
+    function loadNextQuestion() {
+      if (queue.length === 0) {
+        renderFinishScreen();
+        return;
+      }
+      const currentId = queue[0];
+      currentQ = examData.find(q => q.id === currentId);
+      
+      feedbackMode = false;
+      userMcqAns = null;
+      userTfAns = currentQ.type === 'true_false' ? new Array(currentQ.statements.length).fill(null) : [];
+      userShortAns = "";
+      
+      renderApp();
+    }
+
+    function checkAnswer() {
+      isCurrentCorrect = false;
+
+      if (currentQ.type === 'multiple_choice') {
+        isCurrentCorrect = (userMcqAns === currentQ.correct_answer);
+      } 
+      else if (currentQ.type === 'true_false') {
+        isCurrentCorrect = userTfAns.every((ans, idx) => ans === currentQ.statements[idx].is_true);
+      } 
+
+      feedbackMode = true;
+      renderApp();
+    }
+
+    function nextStep() {
+      const currentId = queue.shift(); 
+      if (!isCurrentCorrect) {
+        queue.push(currentId); 
+        stats.wrong++;
+      }
+      loadNextQuestion();
+    }
+
+    // 4. CÁC HÀM XỬ LÝ SỰ KIỆN TỪ GIAO DIỆN
+    function selectMcq(idx) {
+      if(feedbackMode) return;
+      userMcqAns = idx;
+      checkReadyBtn();
+      renderApp();
+    }
+
+    function selectTf(stmtIdx, boolVal) {
+      if(feedbackMode) return;
+      userTfAns[stmtIdx] = boolVal;
+      checkReadyBtn();
+      renderApp();
+    }
+
+    function checkReadyBtn() {
+      const btn = document.getElementById('checkBtn');
+      if(!btn) return;
+      let ready = false;
+      if (currentQ.type === 'multiple_choice') ready = userMcqAns !== null;
+      if (currentQ.type === 'true_false') ready = !userTfAns.includes(null);
+      
+      btn.disabled = !ready;
+      btn.className = ready 
+        ? "w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-4 rounded-xl shadow-md transition-all text-lg"
+        : "w-full bg-gray-300 text-white font-bold py-4 rounded-xl cursor-not-allowed text-lg";
+    }
+
+    // 5. RENDER HTML (GIAO DIỆN)
+    function renderApp() {
+      const app = document.getElementById('app');
+      
+      const progressRatio = ((totalQuestions - queue.length) / totalQuestions) * 100;
+      const progressHtml = `
+        <div class="mb-6 bg-white p-4 rounded-2xl shadow-sm border border-amber-100">
+          <div class="flex justify-between text-sm font-semibold text-amber-800 mb-2">
+            <span>Tiến độ hoàn thành môn Lịch Sử</span>
+            <span>${totalQuestions - queue.length + 1} / ${totalQuestions}</span>
+          </div>
+          <div class="w-full bg-amber-100 rounded-full h-3">
+            <div class="bg-amber-600 h-3 rounded-full transition-all duration-500" style="width: ${progressRatio}%"></div>
+          </div>
+          ${queue.length > totalQuestions ? '<p class="text-xs text-red-500 mt-2 font-medium">Đang làm lại các câu sai...</p>' : ''}
+        </div>
+      `;
+
+      let questionHtml = `<div class="bg-white rounded-2xl shadow-md p-6 mb-6 border border-amber-50">
+        <h2 class="text-lg font-bold text-gray-800 mb-6 whitespace-pre-line leading-relaxed">${currentQ.question}</h2>`;
+
+      if (currentQ.image) {
+        questionHtml += `
+          <div class="mb-6 flex justify-center">
+            <img src="${currentQ.image}" alt="Hình minh họa" class="max-w-full h-auto rounded-lg border border-gray-200">
+          </div>
+        `;
+      }
+
+      if (currentQ.type === 'multiple_choice') {
+        questionHtml += `<div class="space-y-3">`;
+        currentQ.options.forEach((opt, idx) => {
+          let btnClass = "w-full text-left p-4 rounded-xl border-2 transition-all border-gray-200 hover:border-amber-400";
+          if (userMcqAns === idx) btnClass = "w-full text-left p-4 rounded-xl border-2 transition-all border-amber-500 bg-amber-50";
+          
+          if (feedbackMode) {
+            if (idx === currentQ.correct_answer) btnClass += " correct-ans";
+            else if (userMcqAns === idx && !isCurrentCorrect) btnClass += " wrong-ans";
+          }
+
+          questionHtml += `<button onclick="selectMcq(${idx})" class="${btnClass}" ${feedbackMode ? 'disabled' : ''}>${opt}</button>`;
+        });
+        questionHtml += `</div>`;
+      }
+
+      if (currentQ.type === 'true_false') {
+        questionHtml += `<div class="space-y-4">`;
+        currentQ.statements.forEach((stmt, idx) => {
+          
+          const isStmtCorrect = (userTfAns[idx] === stmt.is_true);
+          let btnTrueClass = userTfAns[idx] === true ? "tf-selected" : "bg-white text-gray-600 border-gray-300";
+          let btnFalseClass = userTfAns[idx] === false ? "tf-selected" : "bg-white text-gray-600 border-gray-300";
+          
+          let rowFeedbackHtml = '';
+          let rowBorderClass = 'border-gray-200';
+
+          if (feedbackMode) {
+            if (isStmtCorrect) {
+                rowBorderClass = 'border-green-400 bg-green-50';
+                if (userTfAns[idx] === true) btnTrueClass += " correct-ans";
+                if (userTfAns[idx] === false) btnFalseClass += " correct-ans";
+                rowFeedbackHtml = `<div class="text-sm font-bold text-green-600 w-full sm:w-auto mt-2 sm:mt-0 text-right">✅ Chính xác</div>`;
+            } else {
+                rowBorderClass = 'border-red-400 bg-red-50';
+                if (userTfAns[idx] === true) btnTrueClass += " wrong-ans";
+                if (userTfAns[idx] === false) btnFalseClass += " wrong-ans";
+                rowFeedbackHtml = `<div class="text-sm font-bold text-red-600 w-full sm:w-auto mt-2 sm:mt-0 text-right">❌ Sai (Đáp án: ${stmt.is_true ? 'Đúng' : 'Sai'})</div>`;
+            }
+          }
+
+          questionHtml += `
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-2 ${rowBorderClass} rounded-xl gap-4 transition-all">
+              <span class="flex-1 text-gray-800 font-medium">${stmt.text}</span>
+              <div class="flex gap-2 shrink-0">
+                <button onclick="selectTf(${idx}, true)" class="px-4 py-2 rounded-lg font-semibold border-2 transition-all ${btnTrueClass}" ${feedbackMode ? 'disabled' : ''}>Đúng</button>
+                <button onclick="selectTf(${idx}, false)" class="px-4 py-2 rounded-lg font-semibold border-2 transition-all ${btnFalseClass}" ${feedbackMode ? 'disabled' : ''}>Sai</button>
+              </div>
+              ${rowFeedbackHtml}
+            </div>
+          `;
+        });
+        questionHtml += `</div>`;
+      }
+
+      questionHtml += `</div>`;
+
+      let actionHtml = '';
+      if (!feedbackMode) {
+        actionHtml = `<button id="checkBtn" onclick="checkAnswer()" disabled class="w-full bg-gray-300 text-white font-bold py-4 rounded-xl cursor-not-allowed text-lg transition-all">Kiểm tra</button>`;
+      } else {
+        const fbClass = isCurrentCorrect ? 'bg-green-50 border-green-500 text-green-700' : 'bg-red-50 border-red-500 text-red-700';
+        const fbText = isCurrentCorrect ? '✅ Trả lời chính xác!' : '❌ Chưa chính xác! Câu này sẽ được lưu lại để ôn tập sau.';
+        const btnClass = isCurrentCorrect ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700';
+        
+        actionHtml = `
+          <div class="p-4 rounded-xl border-2 flex items-center justify-between ${fbClass}">
+            <span class="font-bold text-lg">${fbText}</span>
+            <button onclick="nextStep()" class="px-6 py-2 font-bold rounded-lg text-white transition-all ${btnClass}">Tiếp tục</button>
+          </div>
+        `;
+      }
+
+      app.innerHTML = progressHtml + questionHtml + actionHtml;
+      if(!feedbackMode) checkReadyBtn();
+    }
+
+    function renderFinishScreen() {
+      document.getElementById('app').innerHTML = `
+        <div class="bg-white p-8 rounded-2xl shadow-lg max-w-md w-full text-center mx-auto mt-10 border border-amber-100">
+          <h1 class="text-3xl font-bold text-amber-600 mb-4">🎉 Tuyệt vời!</h1>
+          <p class="text-gray-600 mb-6">Bạn đã thuộc lòng bộ câu hỏi Lịch Sử này. Chúc bạn thi tốt nhé!</p>
+          <div class="bg-amber-50 rounded-lg p-4 mb-6">
+            <p class="text-lg font-semibold text-gray-700">Tổng số lần giải sai: <span class="text-red-500">${stats.wrong}</span></p>
+          </div>
+          <button onclick="initApp()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-4 rounded-xl transition-all">
+            Làm lại từ đầu
+          </button>
+        </div>
+      `;
+    }
+
+    window.onload = initApp;
+  </script>
+</body>
+</html>
